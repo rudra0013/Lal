@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Match Day Landing Page</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        .hero {
+            position: relative;
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: url('https://scontent.fbom12-1.fna.fbcdn.net/v/t39.30808-6/473156419_553398564516105_1526728095465159510_n.jpg?stp=dst-jpg_s960x960_tt6&_nc_cat=103&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=XTi-MzvEmhgQ7kNvwEoZObj&_nc_oc=AdnnyApWQSNFPPqubFRyzcdVGZyEAk3uem2LqwYk1EwlaSZoqlx5qUjIzADL5ZSNBmY&_nc_zt=23&_nc_ht=scontent.fbom12-1.fna&_nc_gid=dMizjqhvbuCqO65GwJVmZw&oh=00_Afex_RCNt-YAICPp5bQvXt7qV6Z15ImTDQIGIKUJdvQgDQ&oe=68E5C29C') center/cover no-repeat;
+            text-align: center;
+        }
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 8px #000;
+        }
+        .cta-btn, .cta-btn.secondary {
+            font-size: 1.1rem;
+            padding: 0.9em 2.2em;
+            border: none;
+            border-radius: 40px;
+            background: #ff4500;
+            color: #fff;
+            font-weight: 600;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+            transition: background 0.2s, transform 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: .5em;
+            cursor: pointer;
+            margin-bottom: 0.5em;
+        }
+        .cta-btn.secondary {
+            background: #00aaff;
+        }
+        .cta-btn:hover {
+            background: #ffa500;
+            transform: scale(1.05);
+        }
+        .cta-btn.secondary:hover {
+            background: #1ecbe1;
+        }
+        .hero .cta-btns {
+            margin-top: 1.5rem;
+            display: flex;
+            gap: 2em;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .countdown {
+            font-size: 1.5rem;
+            margin-top: 1.5rem;
+            background: rgba(0,0,0,0.7);
+            padding: .5em 1em;
+            border-radius: 15px;
+            display: inline-block;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        .plans-section {
+            max-width: 600px;
+            margin: 2em auto;
+            background: #222;
+            border-radius: 16px;
+            padding: 2em;
+            box-shadow: 0 2px 10px #0006;
+            text-align: center;
+        }
+        .plans-title {
+            font-size: 3rem;
+            color: #ffa500;
+            margin-bottom: 1em;
+        }
+        .plan-options {
+            display: flex;
+            gap: 1em;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 1em;
+        }
+        .plan-card {
+            background: #191919;
+            border-radius: 12px;
+            padding: 1.1em 1.5em;
+            min-width: 200px;
+            box-shadow: 0 2px 8px #0003;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            position: relative;
+            width: 200px;
+        }
+        .plan-card .price {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #00ffae;
+            margin-bottom: 1.5em;
+        }
+        .plan-card .desc {
+            font-size: 1em;
+            color: #fff;
+            margin-bottom: 1.5em;
+        }
+        .plan-card .cta-btn {
+            align-self: stretch;
+            text-align: center;
+            margin-top: auto;
+        }
+        .plan-card.ads {
+            border: 3px solid #ffa500;
+        }
+        .plan-card.noads {
+            border: 3px solid #ffa500;
+        }
+        .ads-tag, .noads-tag {
+            position: absolute;
+            top: 10px;
+            right: 16px;
+            background: #ffa500;
+            color: #fff;
+            font-size: 0.9em;
+            padding: 0.2em 0.7em;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+        .noads-tag {
+            background: #00aaff;
+        }
+        .highlight-reels {
+            max-width: 1200px;
+            margin: 2em auto;
+            padding: 0 1em;
+            display: flex;
+            gap: 2em;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .players, .rivalries {
+            flex: 1 1 350px;
+            background: #222;
+            border-radius: 15px;
+            padding: 1em;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        .players h2, .rivalries h2 {
+            margin-top: 0;
+            color: #ffa500;
+        }
+        .player-card {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1em;
+            gap: 1em;
+        }
+        .player-img {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            object-fit: cover;
+            box-shadow: 0 2px 6px #000;
+        }
+        .player-info {
+            flex: 1;
+        }
+        .player-info .name {
+            font-weight: bold;
+            font-size: 1.15em;
+        }
+        .player-info .stats {
+            font-size: 0.97em;
+            color: #aaa;
+        }
+        .gallery {
+            max-width: 1200px;
+            margin: 2em auto 1em auto;
+            display: flex;
+            gap: 1.2em;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .gallery-img {
+            width: 250px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.18);
+            transition: transform 0.2s;
+        }
+        .gallery-img:hover {
+            transform: scale(1.06);
+            box-shadow: 0 4px 16px #ffa50066;
+        }
+        .rivalry-carousel {
+            display: flex;
+            overflow-x: auto;
+            gap: 1em;
+            padding-bottom: .5em;
+        }
+        .rivalry-item {
+            min-width: 220px;
+            background: #333;
+            border-radius: 10px;
+            padding: .7em;
+            box-shadow: 0 1px 5px #111;
+            text-align: center;
+        }
+        .rivalry-img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: .5em;
+        }
+        .rivalry-caption {
+            font-size: 0.95em;
+            color: #ddd;
+        }
+        .bottom-cta-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2em 0 1em 0;
+            background: #191919;
+            border-top: 2px solid #ffa500;
+            margin-top: 2em;
+        }
+        .info-form {
+            background: #222;
+            padding: 2em;
+            border-radius: 18px;
+            box-shadow: 0 2px 10px #0004;
+            max-width: 400px;
+            margin: 0 auto 2em auto;
+        }
+        .info-form label {
+            display: block;
+            margin-bottom: .5em;
+            font-weight: 500;
+            color: #ffa500;
+        }
+        .info-form input, .info-form select {
+            width: 100%;
+            padding: .6em;
+            margin-bottom: 1em;
+            border-radius: 7px;
+            border: none;
+            font-size: 1em;
+            background: #111;
+            color: #fff;
+        }
+        .info-form button {
+            padding: .8em 2em;
+            border-radius: 20px;
+            border: none;
+            background: #ff4500;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+            width: 100%;
+            font-size: 1em;
+        }
+        .info-form button:hover {
+            background: #ffa500;
+        }
+        footer {
+            background: #111;
+            padding: 2em 0 1em 0;
+            color: #ddd;
+            text-align: center;
+            font-size: 1.05em;
+            border-top: 2px solid #191919;
+            letter-spacing: 0.5px;
+        }
+        .footer-links {
+            margin-bottom: 0.7em;
+            display: flex;
+            justify-content: center;
+            gap: 1.5em;
+            flex-wrap: wrap;
+        }
+        .footer-links a {
+            color: #ffa500;
+            font-weight: 500;
+            font-size: 1em;
+            transition: color 0.2s;
+        }
+        .footer-links a:hover {
+            color: #ff4500;
+            text-decoration: underline;
+        }
+        @media (max-width: 900px) {
+            .highlight-reels { flex-direction: column; }
+            .players, .rivalries { max-width: 90vw; }
+            .gallery { flex-direction: column; align-items: center; }
+            .gallery-img { width: 90vw; height: 170px; }
+        }
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 2rem; }
+            .plans-section { padding: 1em; }
+            .plan-options { flex-direction: column; gap: 1em; }
+            .players, .rivalries, .info-form { padding: .5em; }
+            .plans-title { font-size: 1.4em;}
+        }
+    </style>
+</head>
+<body>
+    <header class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1>Experience the Thrill Live</h1>
+            <p>LA LIGA Championship – Stadium or Streaming!</p>
+            <div class="cta-btns">
+                <a href="#stream-section" class="cta-btn">Watch Live Stream</a>
+            </div>
+            <div id="countdown" class="countdown">Match Starts In 05 Days : 12 Hrs : 24 Mins.</div>
+        </div>
+    </header>
+
+    <section class="plans-section">
+        <h2 class="plans-title">Streaming Plans</h2>
+        <div class="plan-options">
+            <div class="plan-card ads">
+                <span class="ads-tag">With Ads</span>
+                <div class="price">₹100</div>
+                <div class="desc">Enjoy the match together with ads. Affordable streaming for Students!</div>
+                <a class="cta-btn"><span>Buy Now</span></a>
+            </div>
+            <div class="plan-card noads">
+                <span class="noads-tag">Ad-Free</span>
+                <div class="price">₹300</div>
+                <div class="desc">Stream the match with your Friends, completely ad-free for an uninterrupted experience!</div>
+                <a class="cta-btn secondary"><span>Buy Now</span></a>
+            </div>
+        </div>
+    </section>
+
+    <section class="highlight-reels">
+        <div class="players">
+            <h2>Key Players</h2>
+            <div class="player-card">
+                <img class="player-img" src="https://randomuser.me/api/portraits/men/32.jpg" alt="Player 1">
+                <div class="player-info">
+                    <div class="name">Alex Johnson</div>
+                    <div class="stats">Forward | 18 Goals | 5 Assists</div>
+                    <p>Known for lightning speed and sharp finishing.</p>
+                </div>
+            </div>
+            <div class="player-card">
+                <img class="player-img" src="https://randomuser.me/api/portraits/women/44.jpg" alt="Player 2">
+                <div class="player-info">
+                    <div class="name">Maria Gomez</div>
+                    <div class="stats">Midfielder | 12 Goals | 13 Assists</div>
+                    <p>Master strategist, controls the midfield with vision.</p>
+                </div>
+            </div>
+            <div class="player-card">
+                <img class="player-img" src="https://randomuser.me/api/portraits/men/95.jpg" alt="Player 3">
+                <div class="player-info">
+                    <div class="name">Chris Lee</div>
+                    <div class="stats">Goalkeeper | 8 Clean Sheets</div>
+                    <p>Unbreakable defense, leads from the back.</p>
+                </div>
+            </div>
+        </div>
+        <div class="rivalries">
+            <h2>Previous Rivalries</h2>
+            <div class="rivalry-carousel">
+                <div class="rivalry-item">
+                    <img class="rivalry-img" src="https://www.aljazeera.com/wp-content/uploads/2023/01/2023-01-19T180436Z_1783567149_UP1EJ1J1E7MO3_RTRMADP_3_SOCCER-FRIENDLY-SXI-PSG-REPORT.jpg?resize=730%2C410&quality=80" alt="Rivalry 1">
+                    <div class="rivalry-caption">2023 Final: Overtime Thriller</div>
+                </div>
+                <div class="rivalry-item">
+                    <img class="rivalry-img" src="https://azertag.az/files/2024/2/1200x630/17192881154367953547_1200x630.jpg" alt="Rivalry 2">
+                    <div class="rivalry-caption">2022 Semi: Last-Minute Goal</div>
+                </div>
+                <div class="rivalry-item">
+                     <img class="rivalry-img" src="https://i.guim.co.uk/img/media/f2ffa98ed5daae14ef63f80435f1fe5779a23d43/0_9_2304_1382/master/2304.jpg?width=1200&quality=85&auto=format&fit=max&s=c4db8166f15ed235cc257470ec19a8ac" alt="Rivalry 3">
+                    <div class="rivalry-caption">2021 Classic: Penalty Shootout</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="gallery">
+        <img class="gallery-img" src="https://www.heart.org/en/-/media/Images/News/2018/September-2018/0906SportsFans_SC.jpg?sc_lang=en" alt="Excitement in Stadium">
+        <img class="gallery-img" src="https://health.osu.edu/-/media/health/images/stories/2022/10/cheering.jpg" alt="Fans Cheering">
+        <img class="gallery-img" src="https://media.istockphoto.com/id/1157722836/photo/happy-sports-team-celebrating-their-victory-on-a-playing-field.jpg?s=612x612&w=0&k=20&c=HtAU98ADPba7vklhrhkh2YMs3TtI9PHfe1n0BcWYRJI=" alt="Team Celebration">
+    </div>
+
+    <div class="bottom-cta-section" id="stream-section">
+        <form action="https://formspree.io/f/xnndwydk" method="POST" class="info-form" id="info-form">
+            <h2 style="color: #ffa500; text-align:center; margin-bottom:1em;">Get Updates & Offers</h2>
+            <label for="name">Full Name</label>
+            <input type="text" id="name" name="name" placeholder="Your Name" required>
+            <label for="email"> Email Address</label>
+            <input type="email" id="email" name="email" placeholder="you@example.com" required>
+            <label for="interest">Interested In</label>
+            <select id="interest" name="interest" required>
+                <option value="">Select...</option>
+                <option value="ads">Couple Plan (With Ads)</option>
+                <option value="noads">Couple Plan (Ad-Free)</option>
+            </select>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <footer>
+        <div class="footer-links">
+            <a href="#">About Event</a>
+            <a href="#">FAQ</a>
+            <a href="#">Contact Organizers</a>
+            <a href="#">Terms</a>
+            <a href="#">Privacy Policy</a>
+        </div>
+        <div>
+            © 2025 Stadium Events. All rights reserved.
+        </div>
+         <p>Made with ❤️ for sports fans.</p>
+    </footer>
+
+    <script>
+        // Countdown Timer setup
+        const matchStart = new Date(Date.UTC(2025, 9, 8, 23, 10, 0)); // Month is 0-based, so 9=October
+        function updateCountdown() {
+            const now = new Date();
+            const diff = matchStart - now;
+            if (diff <= 0) {
+                document.getElementById('countdown').textContent = "The Match Has Started!";
+                return;
+            }
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const mins = Math.floor((diff / (1000 * 60)) % 60);
+            document.getElementById('countdown').textContent =
+                `Match Starts In ${days.toString().padStart(2, '0')} Days : ${hours.toString().padStart(2, '0')} Hrs : ${mins.toString().padStart(2, '0')} Mins.`;
+        }
+        updateCountdown();
+        setInterval(updateCountdown, 60000); // Update every minute
+    </script>
+</body>
+</html>
